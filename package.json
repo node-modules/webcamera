@@ -1,0 +1,19 @@
+{
+  "name": "web-camera",
+  "version": "0.0.1",
+  "description": "a camera to shooting web page",
+  "keywords": ["phantomjs", "web", "camera"],
+  "author": "dead_horse <dead_horse@qq.com>",
+  "repository": { "type": "git", "url": "git@github.com:dead-horse/web-camera.git" },
+  "dependencies": {
+    "tfs": "0.1.0",
+    "utility": "0.0.3"
+    },
+  "devDependencies": {
+    "mocha": "*",
+    "should": "*",
+    "mm": "*",
+    "jscover": "*"
+  },
+  "main": "index"
+}
