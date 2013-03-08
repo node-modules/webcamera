@@ -6,7 +6,9 @@ lib-cov
 *.out
 *.pid
 *.gz
-
+pics
+coverage.html
+node_modules
 pids
 logs
 results
