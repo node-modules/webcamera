@@ -13,6 +13,7 @@ var mm = require('mm');
 var child_process = require('child_process');
 var should = require('should');
 var fs = require('fs');
+var pedding = require('pedding');
 
 var tfsOpts =  {
   appkey: 'tfscom',
@@ -175,6 +176,26 @@ describe('lib/web_camera.js', function () {
         data.name.should.include('.jpg');
         data.size.should.above(20000);
         done(err);
+      });
+    });
+  });
+
+  describe('overload', function () {
+    afterEach(mm.restore);
+    it('should emit overload', function (done) {
+      mm(camera, 'workerNum', 1);
+      done = pedding(3, done);
+      camera.once('overload', function (num) {
+        num.should.equal(1);
+        done();
+      });
+      camera.shotStream('www.baidu.com', function (err, s) {
+        should.not.exist(err);
+        done();
+      });
+      camera.shotStream('www.baidu.com', function (err, s) {
+        should.not.exist(err);
+        done();
       });
     });
   });
