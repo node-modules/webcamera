@@ -81,7 +81,7 @@ camera.shotTFS('http://www.baidu.com', function (err, data) {
 `npm install webcamera`
 
 ## Dependences  
-[`phantomjs`](http://phantomjs.org/)
+[`phantomjs`](http://phantomjs.org/)  
 [`TFS`](http://github.com/fengmk2/tfs) > 0.1.1
 
 ## Notice  

@@ -16,3 +16,7 @@ yum install phantomjs freetype.x86_64 freetype-devel.x86_64 fontconfig.x86_64 fo
 1. 如果要对自身网站截图，务必通过ip方式直接访问本机，不要通过域名方式访问。  
 2. 如果需要对其他淘系网站截图，由于同机房http无法调用，所以需要咨询PE绑定host。   
 3. 尽量去除被截图网页的无关资源，减少由于http无法访问导致的错误。   
+
+## 联系人  
+
+旺旺@不四  
