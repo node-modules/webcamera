@@ -9,6 +9,17 @@ web-camera
 var Camera = require('webcamera');
 var fs = require('fs');
 
+/**
+ * web camera by Node.js and Phantomjs
+ * @param {Object} options 
+ *   - path          {String}   default picture dir path
+ *   - workerNum     {Number}   child_process max num
+ *   - timeout       {Number}   child_process timeout.
+ *   - phantom       {String}   phantomjs path
+ *   - phantomScript {String}   phantomjs script path, use input arguments as default script
+ *   - tfsClient     {Object}   tfs client instance
+ *   - tfsOpts       {Object}   tfs options. if do not have tfsClient and tfsOpts, shotTFS become invalid
+ */
 var camera = Camera.create({
   tfsOpts: {    
     appkey: 'tfscom',
@@ -20,6 +31,11 @@ var camera = Camera.create({
       'img04.daily.taobaocdn.net'
     ]    
   }
+});
+
+//当处理速度比调用速度低时会触发此事件
+camera.on('overload', function (listLength) {
+  //listLength为排队等待处理的长度
 });
 
 //截图保存到本地
@@ -66,6 +82,10 @@ camera.shotTFS('http://www.baidu.com', function (err, data) {
 
 ## Dependences  
 `[phantomjs](http://phantomjs.org/)`
+`[TFS](http://github.com/fengmk2/tfs)` > 0.1.1  
+
+## Notice  
+[淘宝CentOS使用](https://github.com/dead-horse/web-camera/blob/master/taobao.md)   
 
 ## Licences  
 (The MIT License)
