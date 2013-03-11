@@ -29,21 +29,18 @@ describe('lib/web_camera.js', function () {
   describe('#create', function () {
     it('should create use default', function (done) {
       noTFSCamera = Camera.create();
-      noTFSCamera.should.have.keys('path', 'workerNum', 'phantom', 'phantomScript', 'tfsClient');
       should.not.exist(noTFSCamera.tfsClient);
       done();
     });
 
     it('should create use tfsClient', function (done) {
       camera = Camera.create({tfsClient: {mock: true}});
-      camera.should.have.keys('path', 'workerNum', 'phantom', 'phantomScript', 'tfsClient');
       camera.tfsClient.should.eql({mock: true});
       done();
     });
 
     it('should create use tfsOpts', function (done) {
       camera = Camera.create({tfsOpts: tfsOpts});
-      camera.should.have.keys('path', 'workerNum', 'phantom', 'phantomScript', 'tfsClient');
       done();
     });
   });
@@ -91,6 +88,14 @@ describe('lib/web_camera.js', function () {
         fs.unlinkSync(data);
         done(err);        
       });
+    });
+
+    it('should shot error of phantom', function (done) {
+      camera.shot('www.zcxvk213123213.com', function (err, data) {
+        err.message.should.equal('phantomjs exit with code 1');
+        Array.isArray(err.args).should.be.ok;
+        done();
+      });      
     });
   });
 
@@ -171,14 +176,6 @@ describe('lib/web_camera.js', function () {
         data.size.should.above(20000);
         done(err);
       });
-    });
-
-    it('should shotTFS error of phantom', function (done) {
-      camera.shotTFS('www.zcxvk213123213.com', function (err, data) {
-        err.message.should.equal('phantomjs exit with code 1');
-        Array.isArray(err.args).should.be.ok;
-        done();
-      });      
     });
   });
 });
