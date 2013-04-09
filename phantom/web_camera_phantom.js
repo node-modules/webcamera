@@ -95,7 +95,7 @@ function finish() {
   } else {
     console.log(page.renderBase64(streamType));
   }
-  page.close();
+  //page.close();
   phantom.exit(0);
 }
 
@@ -104,7 +104,7 @@ setTimeout(finish, timeout);
 
 page.open(address, function (status) {
   if (status !== 'success') {
-    page.close();
+    //page.close();
     phantom.exit(1);
     return ;
   }
