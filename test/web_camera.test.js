@@ -138,14 +138,14 @@ describe('lib/web_camera.js', function () {
     afterEach(mm.restore);
 
     it('should error of no tfs', function (done) {
-      noTFSCamera.shotTFS('www.baidu.com', function (err) {
+      noTFSCamera.shotTFS('www.baidu.com', 320, function (err) {
         err.message.should.equal('TFS not inited');
         done();
       });
     });
 
     it('should shotTFS default ok', function (done) {
-      camera.shotTFS('www.baidu.com', function (err, data) {
+      camera.shotTFS('www.baidu.com', 320, function (err, data) {
         data.should.have.keys('name', 'size', 'url');
         data.name.should.include('.png');
         data.size.should.above(30000);
@@ -154,26 +154,25 @@ describe('lib/web_camera.js', function () {
     });
 
     it('should shotTFS error of tfs error', function (done) {
-      mm.error(camera.tfsClient, 'upload', 'mock error');
-      camera.shotTFS('www.baidu.com', function (err) {
+      mm.error(camera.tfsClient, 'uploadFile', 'mock error');
+      camera.shotTFS('www.baidu.com', 320, function (err) {
         err.message.should.equal('mock error');
         done();
       });
     });
 
     it('should shotTFS default ok', function (done) {
-      camera.shotTFS('www.baidu.com', {
-        mimeType: 'jpg',
+      camera.shotTFS('www.baidu.com', 320, 'baidu.png', {
         script: function () {
           document.getElementById('kw').value = 'test script';
         },
         viewportSize: {
           width: 768,
           height: 420
-        }
+        },
       }, function (err, data) {
         data.should.have.keys('name', 'size', 'url');
-        data.name.should.include('.jpg');
+        data.name.should.equal('L1/1/320/baidu.png');
         data.size.should.above(20000);
         done(err);
       });

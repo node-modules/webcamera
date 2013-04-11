@@ -56,11 +56,11 @@ camera.shotStream('http://www.baidu.com', function (err, s) {
   });
 });
 
-//截图上传TFS
-camera.shotTFS('http://www.baidu.com', function (err, data) {
+//截图上传TFS,指定UID， 文件名。详情查看https://github.com/fengmk2/tfs#api
+camera.shotTFS('http://www.baidu.com',320, baidu.png, function (err, data) {
   /*
   data.should.like:
-  {name: 'T1OyeyXm0mXXXXXXXX.png', size: 36889, url: 'img04.daily.taobaocdn.net/tfscom/T1OyeyXm0mXXXXXXXX.png'}
+  {name: 'L1/1/320/baidu.png', size: 36889, url: 'img04.daily.taobaocdn.net/L1/1/320/baidu.png'}
   */
 });
 ```
