@@ -172,7 +172,7 @@ describe('lib/web_camera.js', function () {
         },
       }, function (err, data) {
         data.should.have.keys('name', 'size', 'url');
-        data.name.should.equal('L1/1/320/baidu.png');
+        data.name.should.equal('L1/1/321/baidu.png');
         data.size.should.above(20000);
         done(err);
       });
