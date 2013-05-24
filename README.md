@@ -81,8 +81,8 @@ camera.shotTFS('http://www.baidu.com',320, baidu.png, function (err, data) {
 `npm install webcamera`
 
 ## Dependences  
-[`phantomjs`](http://phantomjs.org/)  
-[`TFS`](http://github.com/fengmk2/tfs) > 0.1.1
+[`phantomjs`](http://phantomjs.org/) >= v1.9 
+[`TFS`](http://github.com/fengmk2/tfs) >= v0.1.2
 
 ## Notice  
 [淘宝CentOS使用](https://github.com/dead-horse/web-camera/blob/master/taobao.md)   
