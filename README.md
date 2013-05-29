@@ -57,7 +57,7 @@ camera.shotStream('http://www.baidu.com', function (err, s) {
 });
 
 //截图上传TFS,指定partition分区（会被 partition % 1000 + 1处理）， 文件名。详情查看https://github.com/fengmk2/tfs#api
-camera.shotTFS('http://www.baidu.com',320, baidu.png, function (err, data) {
+camera.shotTFS('http://www.baidu.com',320, 'baidu.png', function (err, data) {
   /*
   data.should.like:
   {name: 'L1/1/320/baidu.png', size: 36889, url: 'img04.daily.taobaocdn.net/L1/1/320/baidu.png'}
@@ -66,6 +66,22 @@ camera.shotTFS('http://www.baidu.com',320, baidu.png, function (err, data) {
 ```
 
 所有的调用都可以在`callback`之前传入参数`options`. 
+
+```js
+camera.shotTFS('http://www.baidu.com',320, 'baidu.png', {
+  clipRect: {
+    top: 0,
+    left:0,
+    height: 'all',
+    width: 'all'
+  }  
+}, function (err, data) {
+  /*
+  data.should.like:
+  {name: 'L1/1/320/baidu.png', size: 36889, url: 'img04.daily.taobaocdn.net/L1/1/320/baidu.png'}
+  */
+});
+```
 
 |名字|类型|含义|
 |----|----|----|
