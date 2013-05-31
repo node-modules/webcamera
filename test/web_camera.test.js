@@ -44,6 +44,13 @@ describe('lib/web_camera.js', function () {
       camera = Camera.create({tfsOpts: tfsOpts});
       done();
     });
+
+    it('should create with wrong phantom path', function () {
+      noTFSCamera = Camera.create({
+        phantom: '/not/exist'
+      });
+      camera.phantom.should.equal('phantomjs');
+    });
   });
 
   describe('#shot', function () {
