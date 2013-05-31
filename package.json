@@ -13,8 +13,14 @@
     "mocha": "*",
     "should": "*",
     "mm": "*",
-    "jscover": "*",
+    "blanket": ">=1.1.4",
     "pedding": "*"
+  },
+  "scripts" : {
+        "test" : "make test",
+    "blanket": {
+      "pattern": "web-camera/lib"
+    }
   },
   "main": "index"
 }
