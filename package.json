@@ -6,8 +6,8 @@
   "author": "dead_horse <dead_horse@qq.com>",
   "repository": { "type": "git", "url": "git@github.com:dead-horse/web-camera.git" },
   "dependencies": {
-    "tfs": "0.1.1",
-    "utility": "0.0.3"
+    "tfs": ">=0.1.3",
+    "utility": ">=0.0.9"
     },
   "devDependencies": {
     "mocha": "*",
