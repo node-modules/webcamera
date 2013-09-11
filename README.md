@@ -23,7 +23,7 @@ var fs = require('fs');
 var camera = Camera.create({
   tfsOpts: {    
     appkey: 'tfscom',
-    rootServer: '10.232.4.44:3800',
+    rootServer: 'restful-store.daily.tbsite.net:3800',
     imageServers: [
       'img01.daily.taobaocdn.net',
       'img02.daily.taobaocdn.net',
@@ -92,7 +92,6 @@ camera.shotTFS('http://www.baidu.com',320, 'baidu.png', {
 |mimeType|String|设置截图的保存类型（只有在没设置图片保存路径的情况下生效，否则使用图片保存路径的后缀类型），支持png, jpeg, gif.默认为png|
 |script|Function|网页加载完成之后可以在网页中执行这个方法。|
 
-
 ## Install  
 `npm install webcamera`
 
@@ -102,6 +101,15 @@ camera.shotTFS('http://www.baidu.com',320, 'baidu.png', {
 
 ## Notice  
 [淘宝CentOS使用](https://github.com/dead-horse/web-camera/blob/master/taobao.md)   
+
+## Debug
+
+```bash
+$ tail -f /tmp/phantomjs_shot.log
+$ phantomjs "phantom/web_camera_phantom.js" "https://github.com/" > github.png
+```
+
+github page: [github.png](http://nfs.nodeblog.org/b/0/b06ed6be50682731bfae32d79b25894b.png)
 
 ## Licences  
 (The MIT License)
