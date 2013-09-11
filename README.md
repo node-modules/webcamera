@@ -105,7 +105,7 @@ camera.shotTFS('http://www.baidu.com',320, 'baidu.png', {
 ## Debug
 
 ```bash
-$ tail -f /tmp/phantomjs_shot.log
+$ tail -f /tmp/phantom_shot.log &
 $ phantomjs "phantom/web_camera_phantom.js" "https://github.com/" > github.png
 ```
 
