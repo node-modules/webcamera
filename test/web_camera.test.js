@@ -194,18 +194,15 @@ describe('lib/web_camera.js', function () {
       mm(camera, 'workerNum', 1);
       done = pedding(3, done);
       camera.once('overload', function (num) {
-        console.log('overload', num);
         num.should.equal(1);
         done();
       });
       camera.shotStream(__filename, function (err, s) {
         should.not.exist(err);
-        console.log('s1')
         done();
       });
       camera.shotStream(__filename, function (err, s) {
         should.not.exist(err);
-        console.log('s2')
         done();
       });
     });
