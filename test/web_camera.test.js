@@ -17,16 +17,18 @@ var pedding = require('pedding');
 
 var tfsOpts =  {
   appkey: 'tfscom',
-  rootServer: '10.232.4.44:3800',
+  rootServer: 'restful-store.daily.tbsite.net:3800',
   imageServers: [
     'img01.daily.taobaocdn.net',
     'img02.daily.taobaocdn.net',
   ],
 };
 
-var camera;
+var camera = Camera.create({tfsOpts: tfsOpts});
 var noTFSCamera;
 describe('lib/web_camera.js', function () {
+  afterEach(mm.restore);
+
   describe('#create', function () {
     it('should create use default', function (done) {
       noTFSCamera = Camera.create();
@@ -55,7 +57,7 @@ describe('lib/web_camera.js', function () {
 
   describe('#shot', function () {
     it('should shot default ok', function (done) {
-      camera.shot('www.baidu.com', function (err, data) {
+      camera.shot(__filename, function (err, data) {
         fs.existsSync(data).should.be.ok;
         fs.unlinkSync(data);
         done(err);
@@ -63,7 +65,7 @@ describe('lib/web_camera.js', function () {
     });
 
     it('should shot to path ok', function (done) {
-      camera.shot('www.baidu.com', './baidu.png', function (err, data) {
+      camera.shot(__filename, './baidu.png', function (err, data) {
         data.should.include('baidu.png');
         fs.existsSync(data).should.be.ok;
         fs.unlinkSync(data);
@@ -72,7 +74,7 @@ describe('lib/web_camera.js', function () {
     });
 
     it('should shot with options ok', function (done ) {
-      camera.shot('www.baidu.com', {
+      camera.shot(__filename, {
         picPath: './baidu.jpg',
         clipRect: {
           top: 100,
@@ -90,7 +92,7 @@ describe('lib/web_camera.js', function () {
     });
 
     it('should shot with path and options ok', function (done) {
-      camera.shot('www.baidu.com', 'baidu.gif', {}, function (err, data) {
+      camera.shot(__filename, 'baidu.gif', {}, function (err, data) {
         data.should.include('baidu.gif');
         fs.existsSync(data).should.be.ok;
         fs.unlinkSync(data);
@@ -109,7 +111,7 @@ describe('lib/web_camera.js', function () {
 
   describe('#shotStream', function () {
     it('should shotStream default ok', function (done) {
-      camera.shotStream('www.baidu.com', function (err, s) {
+      camera.shotStream(__filename, function (err, s) {
         var datas = [];
         var filePath = './test.png';
         var file = fs.createWriteStream(filePath, {encoding: 'binary'});
@@ -125,7 +127,8 @@ describe('lib/web_camera.js', function () {
     });
 
     it('should shotStream with options ok', function (done) {
-      camera.shotStream('www.baidu.com', {mimeType: 'jpg', clipRect: {top: 100, left: 100, width: 100, height: 100}}, function (err, s) {
+      camera.shotStream(__filename, 
+      {mimeType: 'jpg', clipRect: {top: 100, left: 100, width: 100, height: 100}}, function (err, s) {
         var datas = [];
         var filePath = './test.jpg';
         var file = fs.createWriteStream(filePath, {encoding: 'binary'});
@@ -145,14 +148,14 @@ describe('lib/web_camera.js', function () {
     afterEach(mm.restore);
 
     it('should error of no tfs', function (done) {
-      noTFSCamera.shotTFS('www.baidu.com', 320, function (err) {
+      noTFSCamera.shotTFS(__filename, 320, function (err) {
         err.message.should.equal('TFS not inited');
         done();
       });
     });
 
     it('should shotTFS default ok', function (done) {
-      camera.shotTFS('www.baidu.com', 320, function (err, data) {
+      camera.shotTFS(__filename, 320, function (err, data) {
         data.should.have.keys('name', 'size', 'url');
         data.name.should.include('.png');
         data.size.should.above(30000);
@@ -162,14 +165,14 @@ describe('lib/web_camera.js', function () {
 
     it('should shotTFS error of tfs error', function (done) {
       mm.error(camera.tfsClient, 'uploadFile', 'mock error');
-      camera.shotTFS('www.baidu.com', 320, function (err) {
+      camera.shotTFS(__filename, 320, function (err) {
         err.message.should.equal('mock error');
         done();
       });
     });
 
     it('should shotTFS default ok', function (done) {
-      camera.shotTFS('www.baidu.com', 320, 'baidu.png', {
+      camera.shotTFS(__filename, 320, 'baidu.png', {
         script: function () {
           document.getElementById('kw').value = 'test script';
         },
@@ -186,21 +189,23 @@ describe('lib/web_camera.js', function () {
     });
   });
 
-  describe('overload', function () {
-    afterEach(mm.restore);
+  describe('overload event', function () {
     it('should emit overload', function (done) {
       mm(camera, 'workerNum', 1);
       done = pedding(3, done);
       camera.once('overload', function (num) {
+        console.log('overload', num);
         num.should.equal(1);
         done();
       });
-      camera.shotStream('www.baidu.com', function (err, s) {
+      camera.shotStream(__filename, function (err, s) {
         should.not.exist(err);
+        console.log('s1')
         done();
       });
-      camera.shotStream('www.baidu.com', function (err, s) {
+      camera.shotStream(__filename, function (err, s) {
         should.not.exist(err);
+        console.log('s2')
         done();
       });
     });
