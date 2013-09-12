@@ -129,14 +129,14 @@ function finish(reason) {
   }
 
   var base64 = page.renderBase64(streamType);
-  page.render(output);
-  // page.close();
-  // fs.write(output, base64, 'wb');
+  if (!output || output !== '/dev/stdout') {
+    page.render(output);
+  } else {
+    // TODO: linux do not support stdout file
+    console.log(base64);
+  }
   log(reason, ', render to ' + output + ', base64 file size: ' + base64.length);
   _done = true;
-  // setTimeout(function () {
-  //   phantom.exit(0);
-  // }, 10);
   phantom.exit(0);
 }
 
