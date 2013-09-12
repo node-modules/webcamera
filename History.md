@@ -1,4 +1,11 @@
 
+0.0.7 / 2013-09-12 
+==================
+
+  * Merge pull request #3 from fengmk2/hotfix-linux-stdout
+  * hot fix linux stdout
+  * add history
+
 0.0.6 / 2013-09-11 
 ==================
 
