@@ -21,6 +21,8 @@ var tfsOpts =  {
   imageServers: [
     'img01.daily.taobaocdn.net',
     'img02.daily.taobaocdn.net',
+    'img03.daily.taobaocdn.net',
+    'img04.daily.taobaocdn.net',
   ],
 };
 
@@ -114,6 +116,7 @@ describe('lib/web_camera.js', function () {
       camera.shotStream(__filename, function (err, s) {
         var datas = [];
         var filePath = './test.png';
+        s.should.have.property('pid').with.be.a('number');
         var file = fs.createWriteStream(filePath, {encoding: 'binary'});
         s.on('data', function (data) {
           file.write(data.toString('binary'), 'binary');          
