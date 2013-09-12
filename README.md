@@ -33,17 +33,17 @@ var camera = Camera.create({
   }
 });
 
-//当处理速度比调用速度低时会触发此事件
+// 当处理速度比调用速度低时会触发此事件
 camera.on('overload', function (listLength) {
   //listLength为排队等待处理的长度
 });
 
-//截图保存到本地
+// 截图保存到本地
 camera.shot('http://www.baidu.com', './baidu.png', function (err, data) {
-  //data.should.equal('./baidu.png');
+  // data.should.equal('./baidu.png');
 });
 
-//截图作为stream
+// 截图作为stream
 camera.shotStream('http://www.baidu.com', function (err, s) {
   var datas = [];
   var filePath = './test.jpg';
@@ -56,8 +56,8 @@ camera.shotStream('http://www.baidu.com', function (err, s) {
   });
 });
 
-//截图上传TFS,指定partition分区（会被 partition % 1000 + 1处理）， 文件名。详情查看https://github.com/fengmk2/tfs#api
-camera.shotTFS('http://www.baidu.com',320, 'baidu.png', function (err, data) {
+// 截图上传TFS,指定partition分区（会被 partition % 1000 + 1处理）， 文件名。详情查看https://github.com/fengmk2/tfs#api
+camera.shotTFS('http://www.baidu.com/',320, 'baidu.png', function (err, data) {
   /*
   data.should.like:
   {name: 'L1/1/320/baidu.png', size: 36889, url: 'img04.daily.taobaocdn.net/L1/1/320/baidu.png'}
@@ -93,11 +93,14 @@ camera.shotTFS('http://www.baidu.com',320, 'baidu.png', {
 |script|Function|网页加载完成之后可以在网页中执行这个方法。|
 
 ## Install  
-`npm install webcamera`
+
+```bash
+$ npm install webcamera
+```
 
 ## Dependences  
-[`phantomjs`](http://phantomjs.org/) >= v1.9 
-[`TFS`](http://github.com/fengmk2/tfs) >= v0.1.2
+* [`phantomjs`](http://phantomjs.org/) >= v1.9 
+* [`TFS`](http://github.com/fengmk2/tfs) >= v0.1.2
 
 ## Notice  
 [淘宝CentOS使用](https://github.com/dead-horse/web-camera/blob/master/taobao.md)   
@@ -109,7 +112,7 @@ $ tail -f /tmp/phantom_shot.log &
 $ phantomjs "phantom/web_camera_phantom.js" "https://github.com/" > github.png
 ```
 
-github page: [github.png](http://nfs.nodeblog.org/b/0/b06ed6be50682731bfae32d79b25894b.png)
+github page screen shot: [github.png](http://nfs.nodeblog.org/b/0/b06ed6be50682731bfae32d79b25894b.png)
 
 ## Licences  
 (The MIT License)

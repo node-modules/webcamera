@@ -21,6 +21,8 @@ var tfsOpts =  {
   imageServers: [
     'img01.daily.taobaocdn.net',
     'img02.daily.taobaocdn.net',
+    'img03.daily.taobaocdn.net',
+    'img04.daily.taobaocdn.net',
   ],
 };
 
@@ -102,6 +104,8 @@ describe('lib/web_camera.js', function () {
 
     it('should shot error of phantom', function (done) {
       camera.shot('www.zcxvk213123213.com', function (err, data) {
+        should.not.exist(data);
+        should.exist(err);
         err.message.should.equal('phantomjs exit with code 1');
         Array.isArray(err.args).should.be.ok;
         done();
@@ -114,6 +118,7 @@ describe('lib/web_camera.js', function () {
       camera.shotStream(__filename, function (err, s) {
         var datas = [];
         var filePath = './test.png';
+        s.should.have.property('pid').with.be.a('number');
         var file = fs.createWriteStream(filePath, {encoding: 'binary'});
         s.on('data', function (data) {
           file.write(data.toString('binary'), 'binary');          
