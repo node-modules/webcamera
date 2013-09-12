@@ -104,6 +104,8 @@ describe('lib/web_camera.js', function () {
 
     it('should shot error of phantom', function (done) {
       camera.shot('www.zcxvk213123213.com', function (err, data) {
+        should.not.exist(data);
+        should.exist(err);
         err.message.should.equal('phantomjs exit with code 1');
         Array.isArray(err.args).should.be.ok;
         done();
