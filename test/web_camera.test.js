@@ -78,6 +78,7 @@ describe('lib/web_camera.js', function () {
 
     it('should shot with options ok', function (done ) {
       camera.shot(__filename, {
+        quality: 80,
         picPath: './baidu.jpg',
         clipRect: {
           top: 100,
@@ -89,6 +90,7 @@ describe('lib/web_camera.js', function () {
       }, function (err, data) {
         data.should.include('baidu.jpg');
         fs.existsSync(data).should.be.ok;
+        fs.statSync(data).size.should.above(0);
         fs.unlinkSync(data);
         done(err);
       });

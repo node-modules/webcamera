@@ -4,7 +4,7 @@
  * Usage:
  *
  * $ phantomjs web_camera_phantom.js 1:address 2:top 3:left 4:width 5:height 6:ViewWidth 7:viewHeight \
- *   8:output 9:waitTime 10:timeout 11:streamType 12:userScript 13:logfile
+ *   8:output 9:quality 10:waitTime 11:timeout 12:streamType 13:userScript 14:logfile
  * 
  * Authors: 
  *   dead_horse <dead_horse@qq.com>
@@ -39,34 +39,17 @@ if (viewportSize.width !== 'all' && viewportSize.height !== 'all') {
 }
 
 var output = args[8] || '/dev/stdout';
-var waitTime = parseInt(args[9], 10) || 0;
-var timeout = parseInt(args[10], 10) || 120000;
-var streamType = args[11] || 'png';
-var quality = null;
-if (streamType.indexOf(':') > 0) {
-  var tmp = streamType.split(':');
-  streamType = tmp[0];
-  var q = Number(tmp[1]);
-  if (q) {
-    quality = q;
-  }
-}
-
-if (output.indexOf(':') > 0) {
-  var tmp = output.split(':');
-  output = tmp[0];
-  var q = Number(tmp[1]);
-  if (q) {
-    quality = q;
-  }
-}
+var quality = parseInt(args[9], 10) || null;
+var waitTime = parseInt(args[10], 10) || 0;
+var timeout = parseInt(args[11], 10) || 120000;
+var streamType = args[12] || 'png';
 
 if (output !== '/dev/stdout') {
   streamType = output.substring(output.lastIndexOf('.') + 1);
 }
 
-var userScript = args[12] || null;
-var logfile = args[13] || '/tmp/phantom_shot.log';
+var userScript = args[13] || null;
+var logfile = args[14] || '/tmp/phantom_shot.log';
 if (logfile.indexOf('--') === 0) {
   logfile = '/tmp/phantom_shot.log';
 }
