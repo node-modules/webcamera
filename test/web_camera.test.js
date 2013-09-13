@@ -59,9 +59,10 @@ describe('lib/web_camera.js', function () {
 
   describe('#shot', function () {
     it('should shot default ok', function (done) {
-      camera.shot(__filename, function (err, data) {
+      camera.shot(__filename, function (err, data, pid) {
         fs.existsSync(data).should.be.ok;
         fs.unlinkSync(data);
+        pid.should.be.a('number').with.above(0);
         done(err);
       });
     });
@@ -77,6 +78,7 @@ describe('lib/web_camera.js', function () {
 
     it('should shot with options ok', function (done ) {
       camera.shot(__filename, {
+        quality: 80,
         picPath: './baidu.jpg',
         clipRect: {
           top: 100,
@@ -88,6 +90,7 @@ describe('lib/web_camera.js', function () {
       }, function (err, data) {
         data.should.include('baidu.jpg');
         fs.existsSync(data).should.be.ok;
+        fs.statSync(data).size.should.above(0);
         fs.unlinkSync(data);
         done(err);
       });
@@ -106,7 +109,7 @@ describe('lib/web_camera.js', function () {
       camera.shot('www.zcxvk213123213.com', function (err, data) {
         should.not.exist(data);
         should.exist(err);
-        err.message.should.equal('phantomjs exit with code 1');
+        err.message.should.equal('phantomjs exit with code 100, open url fail');
         Array.isArray(err.args).should.be.ok;
         done();
       });      
@@ -115,7 +118,7 @@ describe('lib/web_camera.js', function () {
 
   describe('#shotStream', function () {
     it('should shotStream default ok', function (done) {
-      camera.shotStream(__filename, function (err, s) {
+      camera.shotStream(__filename, function (err, s, pid) {
         var datas = [];
         var filePath = './test.png';
         s.should.have.property('pid').with.be.a('number');
@@ -128,12 +131,13 @@ describe('lib/web_camera.js', function () {
           fs.unlinkSync(filePath);
           done();
         });
+        pid.should.be.a('number').with.above(0);
       });
     });
 
     it('should shotStream with options ok', function (done) {
       camera.shotStream(__filename, 
-      {mimeType: 'jpg', clipRect: {top: 100, left: 100, width: 100, height: 100}}, function (err, s) {
+      {mimeType: 'jpg', clipRect: {top: 100, left: 100, width: 100, height: 100}}, function (err, s, pid) {
         var datas = [];
         var filePath = './test.jpg';
         var file = fs.createWriteStream(filePath, {encoding: 'binary'});
@@ -145,6 +149,7 @@ describe('lib/web_camera.js', function () {
           fs.unlinkSync(filePath);
           done();
         });
+        pid.should.be.a('number').with.above(0);
       });
     });
   });
