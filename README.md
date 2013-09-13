@@ -91,6 +91,7 @@ camera.shotTFS('http://www.baidu.com',320, 'baidu.png', {
 |picPath|String|设置图片保存位置，只在`shot`方法时生效，等效于shot方法的第二个参数|
 |mimeType|String|设置截图的保存类型（只有在没设置图片保存路径的情况下生效，否则使用图片保存路径的后缀类型），支持png, jpeg, gif.默认为png|
 |script|Function|网页加载完成之后可以在网页中执行这个方法。|
+|quality|Number|0~100，指定生成图片的质量，数值越高质量越好|
 
 ## Install  
 
