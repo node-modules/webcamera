@@ -4,7 +4,7 @@
  * Usage:
  *
  * $ phantomjs web_camera_phantom.js 1:address 2:top 3:left 4:width 5:height 6:ViewWidth 7:viewHeight \
- *   8:output 9:waitTime 10:timeout 11:streamType 12:userScript 13:logfile
+ *   8:output 9:quality 10:waitTime 11:timeout 12:streamType 13:userScript 14:logfile
  * 
  * Authors: 
  *   dead_horse <dead_horse@qq.com>
@@ -14,7 +14,10 @@
 var system = require('system');
 var webPage = require('webpage');
 var fs = require('fs');
-var args = system.args;
+var args = Array.prototype.slice.call(system.args).filter(function (a) {
+  return !a || a.indexOf('--') !== 0;
+});
+
 var page = webPage.create();
 
 var address = args[1];
@@ -36,11 +39,17 @@ if (viewportSize.width !== 'all' && viewportSize.height !== 'all') {
 }
 
 var output = args[8] || '/dev/stdout';
-var waitTime = parseInt(args[9], 10) || 0;
-var timeout = parseInt(args[10], 10) || 120000;
-var streamType = args[11] || 'png';
-var userScript = args[12] || null;
-var logfile = args[13] || '/tmp/phantom_shot.log';
+var quality = parseInt(args[9], 10) || null;
+var waitTime = parseInt(args[10], 10) || 0;
+var timeout = parseInt(args[11], 10) || 120000;
+var streamType = args[12] || 'png';
+
+if (output !== '/dev/stdout') {
+  streamType = output.substring(output.lastIndexOf('.') + 1);
+}
+
+var userScript = args[13] || null;
+var logfile = args[14] || '/tmp/phantom_shot.log';
 if (logfile.indexOf('--') === 0) {
   logfile = '/tmp/phantom_shot.log';
 }
@@ -63,12 +72,17 @@ log('phantomjs ' + version, ', os architecture: ' + system.os.architecture,
   ', name: ' + system.os.name,
   ', version: ' + system.os.version);
 
+log.apply(null, Array.prototype.slice.call(system.args).map(function (a, index) {
+  return '"' + a + '"';
+}));
+
 log('clipRect: ' + JSON.stringify(clipRect),
   ', viewportSize: ' + JSON.stringify(page.viewportSize),
   ', output: ' + output,
   ', waitTime: ' + waitTime,
   ', timeout: ' + timeout,
   ', streamType: ' + streamType,
+  ', quality: ' + (quality ? quality : 'default'),
   ', userScript: ' + userScript,
   ', logfile: ' + logfile
 );
@@ -128,19 +142,21 @@ function finish(reason) {
     return;
   }
 
-  var base64 = page.renderBase64(streamType);
   if (!output || output !== '/dev/stdout') {
-    page.render(output);
+    if (quality) {
+      page.render(output, {quality: quality});
+    } else {
+      page.render(output);
+    }
   } else {
-    // TODO: linux do not support stdout file
+    var base64 = page.renderBase64(streamType);
     console.log(base64);
+    log('base64 ' + streamType + ' file size: ' + base64.length);
   }
-  log(reason, ', render to ' + output + ', base64 file size: ' + base64.length);
+  log(reason, ', render "' + address + '" to ' + output);
   _done = true;
   phantom.exit(0);
 }
-
-var lastSize = 0;
 
 var resources = {};
 
@@ -160,43 +176,36 @@ page.onResourceReceived = function (res) {
   resourcesNum--;
   var bodySize = reqInfo.size;
   var use = Date.now() - reqInfo.start;
-  var size = page.renderBase64(streamType).length;
-  log('res(#' + res.id + '):', res.status, use + 'ms', ', size: ' + bodySize, res.url, 
+  // var size = page.renderBase64(streamType).length;
+  log('res(#' + res.id + '):',
+    res.status, 
+    use + 'ms, size: ' + bodySize, res.url, 
     ', content size: ' + page.content.length, 
-    ', render base64 size: ' + size, 
+    // ', render base64 size: ' + size, 
     ', resources left: ' + resourcesNum);
   if (res.url === address) {
     log('page title:', page.title || 'no-title');
   }
-
-  // empty is 4224
-  // if (res.stage === 'end' && size > 5000 && lastSize > 5000 && size === lastSize) {
-  //   // size 没有变化
-  //   log('finish when gen content size:' + page.content.length, 'base64 size: ' + size);
-  //   page.onResourceReceived = null;
-  //   // setTimeout(finish, 500);
-  //   finish();
-  // }
-  // lastSize = size;
 };
 
 // timeout之后不管怎么样都超时退出
 setTimeout(function () {
-  finish(timeout + ' ms timeout finish');
+  finish(timeout + 'ms timeout to finish');
 }, timeout);
 
 page.open(address, function (status) {
   log('open status: ' + status);
   if (status !== 'success' && !_done) {
-    phantom.exit(1);
+    // code 100 meaning open url fail
+    phantom.exit(100);
     return ;
   }
   userScript && page.evaluate(eval('('+userScript+')'));
   if (waitTime) {
     setTimeout(function () {
-      finish('open status, wait for' + waitTime + ' ms to finish');
+      finish('open "' + status + '", wait for ' + waitTime + 'ms to finish');
     }, waitTime);
   } else {
-    finish('open status finish');
+    finish('open "' + status + '" to finish');
   }  
 });
