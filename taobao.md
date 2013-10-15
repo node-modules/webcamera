@@ -7,6 +7,9 @@
 
 ```
 yum install phantomjs freetype.x86_64 freetype-devel.x86_64 fontconfig.x86_64 fontconfig-devel.x86_64 fonts-chinese.noarch freetype-devel fontconfig-devel  -b test
+
+#如果上述还不能输出中文的话，执行
+yum -y install *-fonts-* 
 ```
 
 * 字体存放路径： `/usr/share/fonts/chinese/TrueType/`，将.tff字体文件放入到这个目录。   
