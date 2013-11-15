@@ -1,0 +1,62 @@
+#!/usr/bin/env node
+
+var Camera = require('../');
+var optimist = require('optimist');
+var pkg = require('../package.json');
+var bagpipe = require('bagpipe');
+var path = require('path');
+
+var argv = optimist.
+    usage('camera -u http://www.google.com -o google.png')
+    .options({
+      u: {
+        alias: 'url',
+        describe: 'Web\'s url',
+      },
+      o: {
+        alias: 'out',
+        describe: 'Output screenshot picture path',
+        default: './out.png'
+      },
+      c: {
+        alias: 'config',
+        describe: 'config file path, you can define much more options by a js file or a json file'
+      }
+    })
+    .argv;
+
+if (!argv.config && !argv.u) {
+  return optimist.showHelp();
+}
+
+var camera = Camera.create({
+  timeout: 20000
+});
+
+if (argv.c) {
+  var config = require(path.resolve(argv.c));
+  var queue = new bagpipe(1);
+  config.forEach(function (c) {
+    queue.push(camera.shot.bind(camera), c.url, c.out, c.options || {}, function (err, output) {
+      if (err) {
+        console.error('screen shot error happend, url: %s, error message: %s', c.url, err.message);
+      } else {
+        console.log('screen shot ok, url: %s, output path: %s', c.url, c.out);
+      }
+    })
+  });
+} else {
+  camera.shot(argv.url, argv.out, {
+    quality: 100,
+    viewportSize: {
+      width: 1280, 
+      height: 800
+    }
+  }, function (err, output) {
+      if (err) {
+        console.error('screen shot error happend, url: %s, error message: %s', argv.url, err.message);
+      } else {
+        console.log('screen shot ok, url: %s, output path: %s', argv.url, argv.out);
+      }
+  });
+}
