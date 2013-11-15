@@ -1,6 +1,6 @@
 {
   "name": "webcamera",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "description": "a camera to shooting web page",
   "keywords": ["phantomjs", "web", "camera", "screenshot", "shot"],
   "author": "dead_horse <dead_horse@qq.com>",

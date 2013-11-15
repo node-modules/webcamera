@@ -1,4 +1,29 @@
 
+0.1.0 / 2013-11-15 
+==================
+
+  * update readme
+  * add bin
+  * add tips for taobao
+  * remove repeat code
+  * Release 0.0.9
+  * Merge pull request #5 from fengmk2/improve-performance
+  * add quality options for shot()
+  * add error name
+  * delete base64 size check; support open url fail detach; custom log filepath.
+  * Release 0.0.8
+  * Merge pull request #4 from fengmk2/add-pid-to-stream
+  * test err first
+  * add phantomjs pid to stream.pid
+  * Release 0.0.7
+  * Merge pull request #3 from fengmk2/hotfix-linux-stdout
+  * hot fix linux stdout
+  * add history
+  * Release 0.0.6
+  * Merge pull request #2 from fengmk2/render-to-stdout
+  * fix debug doc
+  * send to stdout directly; add logger for phantomjs script
+
 0.0.9 / 2013-09-13 
 ==================
 
