@@ -115,6 +115,63 @@ $ phantomjs "phantom/web_camera_phantom.js" "https://github.com/" > github.png
 
 github page screen shot: [github.png](http://nfs.nodeblog.org/b/0/b06ed6be50682731bfae32d79b25894b.png)
 
+## command line tool  
+`npm install webcamera -g`, 之后可以使用web camera 提供的命令行工具进行网页截图。需要安装`phantomjs`。    
+
+```
+camera -u http://www.google.com -o google.png
+
+Options:
+  -u, --url     Web's url                                                                     
+  -o, --out     Output screenshot picture path                                                  [default: "./out.png"]
+  -c, --config  config file path, you can define much more options by a js file or a json file
+```
+
+可以通过传递配置文件的方式进行批量截图，并对截图的详细参数进行设置，配置文件可以是json文件或者js文件，配置文件模版：
+
+```
+#json形式
+[{
+  "url": "http://cnodejs.org",
+  "out": "cnodejs.png"
+}, {
+  "url": "http://nodejs.org",
+  "out": "nodejs.png",
+  "options": {
+    "viewportSize": {
+      "width": 1280,
+      "height": 800
+    }
+  }
+}, {
+  "url": "http://google.com",
+  "out": "google.png",
+  "options": {
+    "quality": 10
+  }
+}]
+
+#js形式
+var url = 'http://google.com';
+
+var config = [];
+
+for (var quality = 10; quality <= 100; quality += 10) {
+  config.push({
+    url: url,
+    out: 'google@' + quality + '.jpg',
+    options: {
+      quality: quality
+    }
+  });
+}
+
+module.exports = config;
+
+```
+
+推荐通过js形式的配置文件，将会更加灵活。  
+
 ## Licences  
 (The MIT License)
 

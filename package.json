@@ -22,6 +22,9 @@
     "blanket": ">=1.1.4",
     "pedding": "*"
   },
+  "bin": {
+    "camera": "./bin/camera"
+  },
   "scripts" : {
     "test" : "make test",
     "blanket": {
