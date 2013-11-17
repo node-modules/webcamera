@@ -26,28 +26,37 @@ var tfsOpts =  {
   ],
 };
 
-var camera = Camera.create({tfsOpts: tfsOpts});
+var qnOpts = {
+  accessKey: 'test',
+  secretKey: 'haha',
+  bucket: 'test'
+};
+
+var camera;
 var noTFSCamera;
+var qnCamera;
+
 describe('lib/web_camera.js', function () {
   afterEach(mm.restore);
 
   describe('#create', function () {
-    it('should create use default', function (done) {
+    it('should create use default', function () {
       noTFSCamera = Camera.create();
       should.not.exist(noTFSCamera.tfsClient);
-      done();
     });
 
-    it('should create use tfsClient', function (done) {
+    it('should create use tfsClient', function () {
       camera = Camera.create({tfsClient: {mock: true}});
       camera.tfsClient.should.eql({mock: true});
-      done();
     });
 
-    it('should create use tfsOpts', function (done) {
+    it('should create use tfsOpts', function () {
       camera = Camera.create({tfsOpts: tfsOpts});
-      done();
     });
+
+    it('should create use qnOpts', function () {
+       qnCamera = Camera.create({qnOpts: qnOpts});
+    })
 
     it('should create with wrong phantom path', function () {
       noTFSCamera = Camera.create({
