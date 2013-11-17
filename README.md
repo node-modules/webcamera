@@ -19,6 +19,8 @@ var fs = require('fs');
  *   - phantomScript {String}   phantomjs script path, use input arguments as default script
  *   - tfsClient     {Object}   tfs client instance
  *   - tfsOpts       {Object}   tfs options. if do not have tfsClient and tfsOpts, shotTFS become invalid
+ *   - qnClient      {Object}   qiniu client instance
+ *   - qnOpts        {Object}   qiniu options. if do not have qnClient and qnOpts, shotQN become invalid
  */
 var camera = Camera.create({
   tfsOpts: {    
@@ -30,6 +32,11 @@ var camera = Camera.create({
       'img03.daily.taobaocdn.net',
       'img04.daily.taobaocdn.net'
     ]    
+  },
+  qnOpts: {
+    accessKey: 'accessKey',
+    secretKey: 'secretKey',
+    bucket: 'webcamera'
   }
 });
 
@@ -61,6 +68,18 @@ camera.shotTFS('http://www.baidu.com/',320, 'baidu.png', function (err, data) {
   /*
   data.should.like:
   {name: 'L1/1/320/baidu.png', size: 36889, url: 'img04.daily.taobaocdn.net/L1/1/320/baidu.png'}
+  */
+});
+
+//截图上传到七牛空间，第二个参数为上传七牛的options，第三个参数是截图的options
+camera.shotQN('http://www.baidu.com', {key: 'test/baidu.png'}, {quality: 10}, function (err, data) {
+  /*
+  data.should.like:
+  ({ 
+    hash: 'FlDGti9pVGQ3sw2oao-mVu3nZWjZ',
+    key: 'test/baidu.png',
+    url: 'http://webcamera.u.qiniudn.com/test/baidu.png' 
+  })
   */
 });
 ```
