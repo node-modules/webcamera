@@ -200,12 +200,13 @@ page.open(address, function (status) {
     phantom.exit(100);
     return ;
   }
-  userScript && page.evaluate(eval('('+userScript+')'));
   if (waitTime) {
     setTimeout(function () {
+      userScript && page.evaluate(eval('('+userScript+')'));
       finish('open "' + status + '", wait for ' + waitTime + 'ms to finish');
     }, waitTime);
   } else {
+    userScript && page.evaluate(eval('('+userScript+')'));
     finish('open "' + status + '" to finish');
   }  
 });
