@@ -1,9 +1,9 @@
 web-camera
 ==========
 
-网页截图工具 (by phantomjs)。通过phantomjs来打开渲染网页，对网页进行截图。   
+网页截图工具 (by phantomjs)。通过phantomjs来打开渲染网页，对网页进行截图。
 
-## Usage  
+## Usage
 
 ```js
 var Camera = require('webcamera');
@@ -11,7 +11,7 @@ var fs = require('fs');
 
 /**
  * web camera by Node.js and Phantomjs
- * @param {Object} options 
+ * @param {Object} options
  *   - path          {String}   default picture dir path
  *   - workerNum     {Number}   child_process max num
  *   - timeout       {Number}   child_process timeout.
@@ -23,15 +23,8 @@ var fs = require('fs');
  *   - qnOpts        {Object}   qiniu options. if do not have qnClient and qnOpts, shotQN become invalid
  */
 var camera = Camera.create({
-  tfsOpts: {    
-    appkey: 'tfscom',
-    rootServer: 'restful-store.daily.tbsite.net:3800',
-    imageServers: [
-      'img01.daily.taobaocdn.net',
-      'img02.daily.taobaocdn.net',
-      'img03.daily.taobaocdn.net',
-      'img04.daily.taobaocdn.net'
-    ]    
+  tfsOpts: {
+    // tfs options
   },
   qnOpts: {
     accessKey: 'accessKey',
@@ -56,7 +49,7 @@ camera.shotStream('http://www.baidu.com', function (err, s) {
   var filePath = './test.jpg';
   var file = fs.createWriteStream(filePath, {encoding: 'binary'});
   s.on('data', function (data) {
-    file.write(data.toString('binary'), 'binary');          
+    file.write(data.toString('binary'), 'binary');
   });
   s.on('end', function () {
     console.log('get pictrue ok');
@@ -75,16 +68,16 @@ camera.shotTFS('http://www.baidu.com/',320, 'baidu.png', function (err, data) {
 camera.shotQN('http://www.baidu.com', {key: 'test/baidu.png'}, {quality: 10}, function (err, data) {
   /*
   data.should.like:
-  ({ 
+  ({
     hash: 'FlDGti9pVGQ3sw2oao-mVu3nZWjZ',
     key: 'test/baidu.png',
-    url: 'http://webcamera.u.qiniudn.com/test/baidu.png' 
+    url: 'http://webcamera.u.qiniudn.com/test/baidu.png'
   })
   */
 });
 ```
 
-所有的调用都可以在`callback`之前传入参数`options`. 
+所有的调用都可以在`callback`之前传入参数`options`.
 
 ```js
 camera.shotTFS('http://www.baidu.com',320, 'baidu.png', {
@@ -93,7 +86,7 @@ camera.shotTFS('http://www.baidu.com',320, 'baidu.png', {
     left:0,
     height: 'all',
     width: 'all'
-  }  
+  }
 }, function (err, data) {
   /*
   data.should.like:
@@ -112,18 +105,18 @@ camera.shotTFS('http://www.baidu.com',320, 'baidu.png', {
 |script|Function|网页加载完成之后可以在网页中执行这个方法。|
 |quality|Number|0~100，指定生成图片的质量，数值越高质量越好|
 
-## Install  
+## Install
 
 ```bash
 $ npm install webcamera
 ```
 
-## Dependences  
-* [`phantomjs`](http://phantomjs.org/) >= v1.9 
+## Dependences
+* [`phantomjs`](http://phantomjs.org/) >= v1.9
 * [`TFS`](http://github.com/fengmk2/tfs) >= v0.1.2
 
-## Notice  
-[淘宝CentOS使用](https://github.com/dead-horse/web-camera/blob/master/taobao.md)   
+## Notice
+[淘宝CentOS使用](https://github.com/dead-horse/web-camera/blob/master/taobao.md)
 
 ## Debug
 
@@ -134,14 +127,14 @@ $ phantomjs "phantom/web_camera_phantom.js" "https://github.com/" > github.png
 
 github page screen shot: [github.png](http://nfs.nodeblog.org/b/0/b06ed6be50682731bfae32d79b25894b.png)
 
-## command line tool  
-`npm install webcamera -g`, 之后可以使用web camera 提供的命令行工具进行网页截图。需要安装`phantomjs`。    
+## command line tool
+`npm install webcamera -g`, 之后可以使用web camera 提供的命令行工具进行网页截图。需要安装`phantomjs`。
 
 ```
 camera -u http://www.google.com -o google.png
 
 Options:
-  -u, --url     Web's url                                                                     
+  -u, --url     Web's url
   -o, --out     Output screenshot picture path                                                  [default: "./out.png"]
   -c, --config  config file path, you can define much more options by a js file or a json file
 ```
@@ -189,9 +182,9 @@ module.exports = config;
 
 ```
 
-推荐通过js形式的配置文件，将会更加灵活。  
+推荐通过js形式的配置文件，将会更加灵活。
 
-## Licences  
+## Licences
 (The MIT License)
 
 Copyright (c) 2013 dead-horse and other contributors
