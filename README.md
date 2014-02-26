@@ -115,6 +115,9 @@ $ npm install webcamera
 * [`phantomjs`](http://phantomjs.org/) >= v1.9
 * [`TFS`](http://github.com/fengmk2/tfs) >= v0.1.2
 
+## Notice
+[淘宝centOS使用](http://npm.alibaba-inc.com/wiki#经验分享%2F通过phantomjs对网页截图)
+
 ## Debug
 
 ```bash
