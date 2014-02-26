@@ -115,9 +115,6 @@ $ npm install webcamera
 * [`phantomjs`](http://phantomjs.org/) >= v1.9
 * [`TFS`](http://github.com/fengmk2/tfs) >= v0.1.2
 
-## Notice
-[淘宝CentOS使用](https://github.com/dead-horse/web-camera/blob/master/taobao.md)
-
 ## Debug
 
 ```bash
