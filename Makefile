@@ -2,7 +2,7 @@ TESTS = $(shell ls -S `find test -type f -name "*.test.js" -print`)
 TIMEOUT = 20000
 MOCHA_OPTS =
 REPORTER = tap
-NPM_REGISTRY = --registry=http://registry.npm.taobao.net
+NPM_REGISTRY = --registry=http://registry.npm.taobao.org
 NPM_INSTALL_PRODUCTION = PYTHON=`which python2.6` NODE_ENV=production npm install $(NPM_REGISTRY)
 NPM_INSTALL_TEST = PYTHON=`which python2.6` NODE_ENV=test npm install $(NPM_REGISTRY)
 
@@ -19,6 +19,9 @@ test: install-test
 test-cov:
 	@$(MAKE) test MOCHA_OPTS='--require blanket' REPORTER=dot
 	@$(MAKE) test MOCHA_OPTS='--require blanket' REPORTER=html-cov > coverage.html
+
+autod: install
+	./node_modules/.bin/autod -w --prefix="~" -e phantom,coverage.html -i -k should
 
 clean:
 	@rm -f coverage.html

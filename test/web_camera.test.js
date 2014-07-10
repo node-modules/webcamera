@@ -15,17 +15,6 @@ var should = require('should');
 var fs = require('fs');
 var pedding = require('pedding');
 
-var tfsOpts =  {
-  appkey: 'tfscom',
-  rootServer: 'restful-store.daily.tbsite.net:3800',
-  imageServers: [
-    'img01.daily.taobaocdn.net',
-    'img02.daily.taobaocdn.net',
-    'img03.daily.taobaocdn.net',
-    'img04.daily.taobaocdn.net',
-  ],
-};
-
 var qnOpts = {
   accessKey: 'test',
   secretKey: 'haha',
@@ -34,7 +23,6 @@ var qnOpts = {
 
 var camera;
 var noTFSCamera;
-var qnCamera;
 
 describe('lib/web_camera.js', function () {
   afterEach(mm.restore);
@@ -43,19 +31,10 @@ describe('lib/web_camera.js', function () {
     it('should create use default', function () {
       noTFSCamera = Camera.create();
       should.not.exist(noTFSCamera.tfsClient);
-    });
-
-    it('should create use tfsClient', function () {
-      camera = Camera.create({tfsClient: {mock: true}});
-      camera.tfsClient.should.eql({mock: true});
-    });
-
-    it('should create use tfsOpts', function () {
-      camera = Camera.create({tfsOpts: tfsOpts});
-    });
+    })
 
     it('should create use qnOpts', function () {
-       qnCamera = Camera.create({qnOpts: qnOpts});
+       camera = Camera.create({qnOpts: qnOpts});
     })
 
     it('should create with wrong phantom path', function () {
@@ -71,7 +50,8 @@ describe('lib/web_camera.js', function () {
       camera.shot(__filename, function (err, data, pid) {
         fs.existsSync(data).should.be.ok;
         fs.unlinkSync(data);
-        pid.should.be.a('number').with.above(0);
+        pid.should.be.number;
+        pid.should.above(0);
         done(err);
       });
     });
@@ -82,7 +62,7 @@ describe('lib/web_camera.js', function () {
         fs.existsSync(data).should.be.ok;
         fs.unlinkSync(data);
         done(err);
-      });      
+      });
     });
 
     it('should shot with options ok', function (done ) {
@@ -110,7 +90,7 @@ describe('lib/web_camera.js', function () {
         data.should.include('baidu.gif');
         fs.existsSync(data).should.be.ok;
         fs.unlinkSync(data);
-        done(err);        
+        done(err);
       });
     });
 
@@ -121,7 +101,7 @@ describe('lib/web_camera.js', function () {
         err.message.should.equal('phantomjs exit with code 100, open url fail');
         Array.isArray(err.args).should.be.ok;
         done();
-      });      
+      });
     });
   });
 
@@ -130,83 +110,41 @@ describe('lib/web_camera.js', function () {
       camera.shotStream(__filename, function (err, s, pid) {
         var datas = [];
         var filePath = './test.png';
-        s.should.have.property('pid').with.be.a('number');
+        s.should.have.property('pid').with.be.Number;
         var file = fs.createWriteStream(filePath, {encoding: 'binary'});
         s.on('data', function (data) {
-          file.write(data.toString('binary'), 'binary');          
+          file.write(data.toString('binary'), 'binary');
         });
         s.on('end', function () {
           fs.existsSync(filePath).should.be.ok;
           fs.unlinkSync(filePath);
           done();
         });
-        pid.should.be.a('number').with.above(0);
+        pid.should.be.Number;
+        pid.should.above(0);
       });
     });
 
     it('should shotStream with options ok', function (done) {
-      camera.shotStream(__filename, 
+      camera.shotStream(__filename,
       {mimeType: 'jpg', clipRect: {top: 100, left: 100, width: 100, height: 100}}, function (err, s, pid) {
         var datas = [];
         var filePath = './test.jpg';
         var file = fs.createWriteStream(filePath, {encoding: 'binary'});
         s.on('data', function (data) {
-          file.write(data.toString('binary'), 'binary');          
+          file.write(data.toString('binary'), 'binary');
         });
         s.on('end', function () {
           fs.existsSync(filePath).should.be.ok;
           fs.unlinkSync(filePath);
           done();
         });
-        pid.should.be.a('number').with.above(0);
+        pid.should.be.Number;
+        pid.should.with.above(0);
       });
     });
   });
-  
-  describe('#shotTFS', function () {
-    afterEach(mm.restore);
 
-    it('should error of no tfs', function (done) {
-      noTFSCamera.shotTFS(__filename, 320, function (err) {
-        err.message.should.equal('TFS not inited');
-        done();
-      });
-    });
-
-    it('should shotTFS default ok', function (done) {
-      camera.shotTFS(__filename, 320, function (err, data) {
-        data.should.have.keys('name', 'size', 'url');
-        data.name.should.include('.png');
-        data.size.should.above(30000);
-        done(err);
-      });
-    });
-
-    it('should shotTFS error of tfs error', function (done) {
-      mm.error(camera.tfsClient, 'uploadFile', 'mock error');
-      camera.shotTFS(__filename, 320, function (err) {
-        err.message.should.equal('mock error');
-        done();
-      });
-    });
-
-    it('should shotTFS default ok', function (done) {
-      camera.shotTFS(__filename, 320, 'baidu.png', {
-        script: function () {
-          document.getElementById('kw').value = 'test script';
-        },
-        viewportSize: {
-          width: 768,
-          height: 420
-        },
-      }, function (err, data) {
-        data.should.have.keys('name', 'size', 'url');
-        data.name.should.equal('L1/1/321/baidu.png');
-        data.size.should.above(20000);
-        done(err);
-      });
-    });
-  });
 
   describe('overload event', function () {
     it('should emit overload', function (done) {

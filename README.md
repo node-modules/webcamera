@@ -56,11 +56,11 @@ camera.shotStream('http://www.baidu.com', function (err, s) {
   });
 });
 
-// 截图上传TFS,指定partition分区（会被 partition % 1000 + 1处理）， 文件名。详情查看https://github.com/fengmk2/tfs#api
+// 截图上传TFS
 camera.shotTFS('http://www.baidu.com/',320, 'baidu.png', function (err, data) {
   /*
   data.should.like:
-  {name: 'L1/1/320/baidu.png', size: 36889, url: 'img04.daily.taobaocdn.net/L1/1/320/baidu.png'}
+  {name: 'L1/1/320/baidu.png', size: 36889, url: 'xxx/L1/1/320/baidu.png'}
   */
 });
 
@@ -90,7 +90,7 @@ camera.shotTFS('http://www.baidu.com',320, 'baidu.png', {
 }, function (err, data) {
   /*
   data.should.like:
-  {name: 'L1/1/320/baidu.png', size: 36889, url: 'img04.daily.taobaocdn.net/L1/1/320/baidu.png'}
+  {name: 'L1/1/320/baidu.png', size: 36889, url: 'xxx/L1/1/320/baidu.png'}
   */
 });
 ```
