@@ -1,12 +1,17 @@
 
-0.1.1 / 2013-11-21 
+0.2.0 / 2014-07-10
+==================
+
+  * remove tfs
+
+0.1.1 / 2013-11-21
 ==================
 
   * delay to eval script
   * add doc
   * support qn
 
-0.1.0 / 2013-11-15 
+0.1.0 / 2013-11-15
 ==================
 
   * update readme
@@ -31,7 +36,7 @@
   * fix debug doc
   * send to stdout directly; add logger for phantomjs script
 
-0.0.9 / 2013-09-13 
+0.0.9 / 2013-09-13
 ==================
 
   * Merge pull request #5 from fengmk2/improve-performance
@@ -39,21 +44,21 @@
   * add error name
   * delete base64 size check; support open url fail detach; custom log filepath.
 
-0.0.8 / 2013-09-12 
+0.0.8 / 2013-09-12
 ==================
 
   * Merge pull request #4 from fengmk2/add-pid-to-stream
   * test err first
   * add phantomjs pid to stream.pid
 
-0.0.7 / 2013-09-12 
+0.0.7 / 2013-09-12
 ==================
 
   * Merge pull request #3 from fengmk2/hotfix-linux-stdout
   * hot fix linux stdout
   * add history
 
-0.0.6 / 2013-09-11 
+0.0.6 / 2013-09-11
 ==================
 
   * Merge pull request #2 from fengmk2/render-to-stdout
