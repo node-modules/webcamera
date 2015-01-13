@@ -17,15 +17,10 @@ var fs = require('fs');
  *   - timeout       {Number}   child_process timeout.
  *   - phantom       {String}   phantomjs path
  *   - phantomScript {String}   phantomjs script path, use input arguments as default script
- *   - tfsClient     {Object}   tfs client instance
- *   - tfsOpts       {Object}   tfs options. if do not have tfsClient and tfsOpts, shotTFS become invalid
  *   - qnClient      {Object}   qiniu client instance
  *   - qnOpts        {Object}   qiniu options. if do not have qnClient and qnOpts, shotQN become invalid
  */
 var camera = Camera.create({
-  tfsOpts: {
-    // tfs options
-  },
   qnOpts: {
     accessKey: 'accessKey',
     secretKey: 'secretKey',
@@ -56,14 +51,6 @@ camera.shotStream('http://www.baidu.com', function (err, s) {
   });
 });
 
-// 截图上传TFS
-camera.shotTFS('http://www.baidu.com/',320, 'baidu.png', function (err, data) {
-  /*
-  data.should.like:
-  {name: 'L1/1/320/baidu.png', size: 36889, url: 'xxx/L1/1/320/baidu.png'}
-  */
-});
-
 //截图上传到七牛空间，第二个参数为上传七牛的options，第三个参数是截图的options
 camera.shotQN('http://www.baidu.com', {key: 'test/baidu.png'}, {quality: 10}, function (err, data) {
   /*
@@ -80,7 +67,7 @@ camera.shotQN('http://www.baidu.com', {key: 'test/baidu.png'}, {quality: 10}, fu
 所有的调用都可以在`callback`之前传入参数`options`.
 
 ```js
-camera.shotTFS('http://www.baidu.com',320, 'baidu.png', {
+camera.shotQN('http://www.baidu.com',320, 'baidu.png', {
   clipRect: {
     top: 0,
     left:0,
@@ -113,7 +100,6 @@ $ npm install webcamera
 
 ## Dependences
 * [`phantomjs`](http://phantomjs.org/) >= v1.9
-* [`TFS`](http://github.com/fengmk2/tfs) >= v0.1.2
 
 ## Debug
 
