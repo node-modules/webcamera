@@ -103,6 +103,16 @@ describe('lib/web_camera.js', function () {
         done();
       });
     });
+
+    it('should return when page has error', function(done) {
+      camera = Camera.create();
+      camera.shot('https://os.alipayobjects.com/rmsportal/UKYoZFxFsmwxVjB.html', './test.png', function (err, data) {
+        data.should.include('test.png');
+        fs.existsSync(data).should.be.ok;
+        fs.unlinkSync(data);
+        done(err);
+      });
+    });
   });
 
   describe('#shotStream', function () {
