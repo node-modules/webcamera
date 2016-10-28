@@ -193,6 +193,11 @@ setTimeout(function () {
   finish(timeout + 'ms timeout to finish');
 }, timeout);
 
+// 当页面未加载完，open 的回调一直未执行导致卡死，绑定 onError 可以解决这个问题
+page.onError = function(msg) {
+  log('onError ' + msg);
+};
+
 page.open(address, function (status) {
   log('open status: ' + status);
   if (status !== 'success' && !_done) {
